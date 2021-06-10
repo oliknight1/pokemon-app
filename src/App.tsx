@@ -1,7 +1,8 @@
-
-function App() {
+import PokemonList from "./components/PokemonList";
+const App = () => {
   return (
     <div>
+		<PokemonList/>	
     </div>
   );
 }
