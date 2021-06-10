@@ -7,23 +7,28 @@ class PokemonController extends BaseController {
 	public getAll = async ( _req : Request, res : Response ) : Promise<void> => {
 		const response = await this.getData( `${ API_URL }/pokemon?offset=0&limit=20` );
 		const data = response.results;
-		let all_pokemon = []
+		let allPromises = []
 		for( const pokemon of data ) {
-			const data = await this.getData( pokemon.url )
-			const final_pokemon = this.buildResponse( data, pokemon );
-			all_pokemon.push( final_pokemon )
+			const data = this.getData( pokemon.url )
+			allPromises.push( data );
 		}
-		res.send( all_pokemon )
+		let allData = await Promise.all( allPromises );
+		const parsedData : Pokemon[] = this.buildResponse( allData )
+		
+		res.send( parsedData )
 	}
 
-	private buildResponse = ( data : any , originalObject : InitialPokemonRequest ) => {
-		const final_pokemon : Pokemon = {
-			id: data.id,
-			...originalObject,
-			types: data.types,
-			sprite: data.sprites.front_default,
-		};
-		return final_pokemon;
+	private buildResponse = ( data : any[] ) => {
+		const parsedData : Pokemon[] = data.map( ( pokemon : any ) : Pokemon => {
+			return {
+				id: pokemon.id,
+				name: pokemon.name,
+				url: `${ API_URL }/pokemon/${pokemon.id}`,
+				types: pokemon.types,
+				sprite: pokemon.sprites.front_default
+			}
+		} );
+		return parsedData;
 	}
 	
 
