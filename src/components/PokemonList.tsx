@@ -6,9 +6,6 @@ import PokemonService from "../services/PokemonService"
 const PokemonList = () : JSX.Element => {
 	const [ pokemon, setPokemon ] = useState<IPokemon[]>([]);
 	useEffect( () => {
-		// SQUISH PREV COMIT
-
-
 		// ADD TO ERROR PROPERTY ON IPokemon OBJ
 		PokemonService.getAll()
 		.then( ( response : AxiosResponse<object> ) => response.data )
