@@ -2,21 +2,8 @@ import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react"
 import { IPokemon } from "../interfaces";
 import PokemonService from "../services/PokemonService"
-import { Card, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 import Pokemon from "./Pokemon";
-
-const { Meta } = Card;
-type PokemonTypesObj = {
-	slot : number,
-	type : {
-		name: string,
-		url: string
-	}
-}
-const capitalize = ( string : string ) : string => {
-	return string.charAt(0).toUpperCase() + string.slice(1)
-} 
-
 const PokemonList = () : JSX.Element => {
 	const [ pokemon, setPokemon ] = useState<IPokemon[]>([]);
 	
@@ -35,7 +22,7 @@ const PokemonList = () : JSX.Element => {
 				{
 					pokemon.map( ( pokemon: any )=> {
 						return (
-							<Col xl={ 4 } lg={ 6 } sm={ 8 } xs={ 24 }>
+							<Col xl={ 4 } lg={ 6 } sm={ 8 } xs={ 24 } key={ pokemon.id }>
 								<Pokemon pokemon={ pokemon } />
 							</Col>
 						)
