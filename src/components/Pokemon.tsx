@@ -1,9 +1,11 @@
 import { Card } from "antd";
 import { IPokemonProps } from "../interfaces";
 import { capitalize } from "../utils/helpers";
+import PokemonType from "./PokemonType";
 const { Meta } = Card;
 const Pokemon = ( { pokemon } : IPokemonProps ) : JSX.Element => {
 	return (
+		<a href="#">
 		<Card
 			key={ pokemon.id }
 			cover={
@@ -16,9 +18,13 @@ const Pokemon = ( { pokemon } : IPokemonProps ) : JSX.Element => {
 		>
 			<Meta
 				title={ capitalize( pokemon.name ) }
-				description={ pokemon.types.map( ( type : any ) => capitalize( type ) + ' ' ) }
+				style={{ marginBottom: 10 }}
 			/>
+			{
+				pokemon.types.map( ( type : object ) => <PokemonType type={ type } key={ `${ pokemon.id }-${ type }` } /> )
+			}
 		</Card>
+		</a>
 	)
 }
 export default Pokemon;
