@@ -4,8 +4,15 @@ export interface InitialPokemonRequest {
 }
 
 export interface Pokemon extends InitialPokemonRequest {
-	types: object[],
+	types: string[],
 	sprite: string,
 	id: number
+}
 
+export type PokemonTypeArray = {
+	slot : number,
+	type : {
+		name : string,
+		url : string
+	}
 }
