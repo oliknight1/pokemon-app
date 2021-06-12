@@ -29,12 +29,12 @@ const PokemonList = () : JSX.Element => {
 	return (
 		<>
 			<h1>Pokemon List</h1>
-			<Row gutter={ [ 32, 32 ] } wrap={ true }>
+			<Row gutter={ [ 32, 32 ] } justify="center" wrap={ true }>
 				{
 					pokemon.map( ( pokemon: any )=> {
 						const typesArray = pokemon.types.map( ( typeObj:PokemonTypesObj ) => typeObj.type.name  )
 						return (
-							<Col span={ 6 } >
+							<Col sm={ 8 } lg={ 6 } xl={ 4 } flex="auto" key={ pokemon.id }>
 								<Card 
 									key={ pokemon.id }
 									cover={
