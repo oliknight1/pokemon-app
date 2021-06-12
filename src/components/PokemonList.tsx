@@ -1,7 +1,20 @@
-import {AxiosResponse} from "axios";
-import {useEffect, useState} from "react"
-import {IPokemon} from "../interfaces";
+import { AxiosResponse } from "axios";
+import { useEffect, useState } from "react"
+import { IPokemon } from "../interfaces";
 import PokemonService from "../services/PokemonService"
+import { Card, Row, Col } from 'antd';
+
+const { Meta } = Card;
+type PokemonTypesObj = {
+	slot : number,
+	type : {
+		name: string,
+		url: string
+	}
+}
+const capitalize = ( string : string ) : string => {
+	return string.charAt(0).toUpperCase() + string.slice(1)
+} 
 
 const PokemonList = () : JSX.Element => {
 	const [ pokemon, setPokemon ] = useState<IPokemon[]>([]);
@@ -14,15 +27,35 @@ const PokemonList = () : JSX.Element => {
 
 	}, [] );
 	return (
-		<div>
+		<>
 			<h1>Pokemon List</h1>
-
-			{
-				pokemon.map( pokemon => 
-					<p key={ pokemon.id } >{ pokemon.name }</p>
-				)
-			}
-		</div>
+			<Row gutter={ [ 32, 32 ] } wrap={ true }>
+				{
+					pokemon.map( ( pokemon: any )=> {
+						const typesArray = pokemon.types.map( ( typeObj:PokemonTypesObj ) => typeObj.type.name  )
+						return (
+							<Col span={ 6 } >
+								<Card 
+									key={ pokemon.id }
+									cover={
+										<img
+											alt={ pokemon.name }
+											src={ pokemon.sprite }
+										/>
+									}
+									hoverable
+								>
+									<Meta
+										title={ capitalize( pokemon.name ) }
+										description={ typesArray.map( ( type : string ) => capitalize( type ) + ' ' ) }
+									/>
+								</Card>
+							</Col>
+						)
+					} )
+				}
+			</Row>
+		</>
 	) 
 
 }
