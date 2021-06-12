@@ -6,3 +6,6 @@ export interface IPokemon {
 	sprite : string,
 	error : string | null
 }
+export interface IPokemonProps {
+	pokemon : IPokemon
+}

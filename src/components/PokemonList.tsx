@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { IPokemon } from "../interfaces";
 import PokemonService from "../services/PokemonService"
 import { Card, Row, Col } from 'antd';
+import Pokemon from "./Pokemon";
 
 const { Meta } = Card;
 type PokemonTypesObj = {
@@ -33,24 +34,9 @@ const PokemonList = () : JSX.Element => {
 			<Row gutter={ [ 32, 32 ] } wrap={ true }>
 				{
 					pokemon.map( ( pokemon: any )=> {
-						const typesArray = pokemon.types.map( ( typeObj:PokemonTypesObj ) => typeObj.type.name  )
 						return (
 							<Col xl={ 4 } lg={ 6 } sm={ 8 } xs={ 24 }>
-								<Card 
-									key={ pokemon.id }
-									cover={
-										<img
-											alt={ pokemon.name }
-											src={ pokemon.sprite }
-										/>
-									}
-									hoverable
-								>
-									<Meta
-										title={ capitalize( pokemon.name ) }
-										description={ typesArray.map( ( type : string ) => capitalize( type ) + ' ' ) }
-									/>
-								</Card>
+								<Pokemon pokemon={ pokemon } />
 							</Col>
 						)
 					} )
