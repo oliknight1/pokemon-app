@@ -4,15 +4,21 @@ import { API_URL } from "../utils/config";
 import BaseController from "./BaseController";
 
 type pageQuery = {
-	page: string
+	name : string
 
 }
 
 class PokemonController extends BaseController {
-	public getAll = async ( req : Request<{}, {}, {}, pageQuery>, res : Response ) : Promise<void> => {
-		const { query } = req;
-		let url : string = this.generateUrl( query );
+	public getAll = async ( req : Request, res : Response ) : Promise<void> => {
+		let url : string;
 
+		if ( !req.query.page || req.query.page === '1' ) {
+			url = `${ API_URL }/pokemon?offset=0&limit=20`
+		} else {
+			const page : number = ( +req.query.page );
+			const offset : number = ( page - 1 ) * 20
+			url = `${ API_URL }/pokemon?offset=0&limit=20`
+		}
 		const response = await this.getData( url );
 		const data = response.results;
 		let allPromises = []
@@ -26,17 +32,17 @@ class PokemonController extends BaseController {
 		res.send( parsedData )
 	}
 
-	private generateUrl = ( query : pageQuery ) : string => {
-		if ( !query.page || query.page === '1' ) {
+	private generateUrl = ( req: Request ) : string => {
+		if ( !req.query.page || req.query.page === '1' ) {
 			return `${ API_URL }/pokemon?offset=0&limit=20`
 		}
-		const offset = this.calcualteOffset( query.page );
-		return `${ API_URL }/pokemon?offset=${ offset }&limit=20`
+		this.calcualteOffset( req.query.page )
+		const offset : number = <String>this.calcualteOffset( req.query.name )
+		return `${ API_URL }/pokemon?offset=0&limit=20`
 
 	}
 
-	private calcualteOffset = ( page : string ) : number => {
-		return ( +page - 1 ) * 20;
+	private calcualteOffset = ( pageQuery :<T> ) : number {
 
 	}
 
