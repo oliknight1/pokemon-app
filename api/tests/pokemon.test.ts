@@ -1,9 +1,10 @@
 import supertest from 'supertest';
+import { Response } from 'express'
 import { app } from '../app';
 
 const api = supertest( app );
 
-describe( 'Test getting all pokemon', () => {
+describe( 'Test getting first 20 pokemon', () => {
 	test( 'Data is returned as json', async () => {
 		await api.get( '/api/pokemon' )
 		.expect( 200 )
@@ -40,3 +41,20 @@ describe( 'Test getting all pokemon', () => {
 	} );
 });
 
+describe( 'Test pagination', () => {
+	let first20Data : object;
+	beforeEach( () => {
+		first20Data = api.get( '/api/pokemon' );
+	} )
+
+	test( 'Data is returned as json', async () : Promise<void> => {
+		await api.get( '/api/pokemon?page=2' )
+		.expect( 200 )
+		.expect( 'Content-Type', /application\/json/ );
+	} );
+	test( 'Test that the next 20 results are shown', async () : Promise<void> => {
+		 const response : object = await api.get( '/api/pokemon?page=2' );
+		 expect( response ).not.toMatchObject( first20Data )
+
+	} );
+});
