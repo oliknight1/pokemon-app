@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react"
 import { IPokemon } from "../interfaces";
 import PokemonService from "../services/PokemonService"
-import { Row, Col } from 'antd';
+import { Row, Col, Pagination } from 'antd';
 import Pokemon from "./Pokemon";
 const PokemonList = () : JSX.Element => {
 	const [ pokemon, setPokemon ] = useState<IPokemon[]>([]);
@@ -33,6 +33,7 @@ const PokemonList = () : JSX.Element => {
 					} )
 				}
 			</Row>
+			<Pagination defaultCurrent={ 1 } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 }/>
 		</>
 	) 
 
