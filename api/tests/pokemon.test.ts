@@ -19,23 +19,12 @@ describe( 'Test getting first 20 pokemon', () => {
 		const expectedObj = {
 			id: 1,
 			name: 'bulbasaur',
-			url: 'https://pokeapi.co/api/v2/pokemon/1/',
+			url: 'https://pokeapi.co/api/v2/pokemon/1',
 			types: [
-				{
-					"slot": 1,
-					"type": {
-						"name": "grass",
-						"url": "https://pokeapi.co/api/v2/type/12/"
-					}
-				},{
-					"slot": 2,
-					"type": {
-						"name": "poison",
-						"url": "https://pokeapi.co/api/v2/type/4/"
-					}
-				}
+				"grass",
+				"poison",
 			],
-			"sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png"
+			"sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
 		};
 		expect( response.body[0] ).toMatchObject( expectedObj );
 	} );
@@ -53,8 +42,8 @@ describe( 'Test pagination', () => {
 		.expect( 'Content-Type', /application\/json/ );
 	} );
 	test( 'Test that the next 20 results are shown', async () : Promise<void> => {
-		 const response : object = await api.get( '/api/pokemon?page=2' );
-		 expect( response ).not.toMatchObject( first20Data )
+		const response : object = await api.get( '/api/pokemon?page=2' );
+		expect( response ).not.toMatchObject( first20Data )
 
 	} );
 });
