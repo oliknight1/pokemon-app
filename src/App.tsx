@@ -1,6 +1,7 @@
 import PokemonList from "./components/PokemonList";
 import "antd/dist/antd.css";
 import { Layout } from 'antd';
+import {Header} from "antd/lib/layout/layout";
 const { Content } = Layout;
 
 

@@ -21,7 +21,7 @@ const PokemonList = () : JSX.Element => {
 	}, [] );
 	return (
 		<>
-			<h1>Pokemon List</h1>
+			<h1 className="mt-1 mb-2">Pokemon List</h1>
 			<Row gutter={ [ 32, 32 ] } wrap={ true }>
 				{
 					pokemon.map( ( pokemon: any )=> {
@@ -33,7 +33,7 @@ const PokemonList = () : JSX.Element => {
 					} )
 				}
 			</Row>
-			<Pagination defaultCurrent={ 1 } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 }/>
+			<Pagination className="pagination" defaultCurrent={ 1 } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 }/>
 		</>
 	) 
 
