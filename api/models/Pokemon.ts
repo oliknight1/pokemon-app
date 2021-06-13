@@ -1,12 +1,13 @@
-export interface InitialPokemonRequest {
+export interface Pokemon {
 	name: string,
 	url : string,
-}
-
-export interface Pokemon extends InitialPokemonRequest {
 	types: string[],
 	sprite: string,
 	id: number
+}
+export interface IPokemonResponse {
+	count : number,
+	pokemon : Pokemon[]
 }
 
 export type PokemonTypeArray = {

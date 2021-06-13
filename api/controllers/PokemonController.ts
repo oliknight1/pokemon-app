@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { InitialPokemonRequest, Pokemon, PokemonTypeArray } from "../models/Pokemon";
+import { IPokemonResponse, Pokemon, PokemonTypeArray } from "../models/Pokemon";
 import { API_URL } from "../utils/config";
 import BaseController from "./BaseController";
 
@@ -21,9 +21,13 @@ class PokemonController extends BaseController {
 			allPromises.push( data );
 		}
 		let allData = await Promise.all( allPromises );
-		const parsedData : Pokemon[] = this.buildResponse( allData )
-
-		res.send( parsedData )
+		const pokemonList : Pokemon[] = this.buildPokemon( allData )
+		
+		const returnValue : IPokemonResponse = {
+			count : response.count,
+			pokemon : pokemonList
+		}
+		res.send( returnValue )
 	}
 
 	private generateUrl = ( query : pageQuery ) : string => {
@@ -40,8 +44,8 @@ class PokemonController extends BaseController {
 
 	}
 
-	private buildResponse = ( data : any[] ) => {
-		const parsedData : Pokemon[] = data.map( ( pokemon : any ) : Pokemon => {
+	private buildPokemon = ( data : any[] ) => {
+		const pokemonList : Pokemon[] = data.map( ( pokemon : any ) : Pokemon => {
 			const types : string[] = pokemon.types.map( ( pokemonTypes : PokemonTypeArray ) => pokemonTypes.type.name )
 			return {
 				id: pokemon.id,
@@ -51,7 +55,7 @@ class PokemonController extends BaseController {
 				sprite: pokemon.sprites.front_default
 			}
 		} );
-		return parsedData;
+		return pokemonList;
 	}
 
 
