@@ -6,12 +6,16 @@ import { Row, Col } from 'antd';
 import Pokemon from "./Pokemon";
 const PokemonList = () : JSX.Element => {
 	const [ pokemon, setPokemon ] = useState<IPokemon[]>([]);
+	const [ pokemonCount, setPokemonCount ] = useState<number>();
 	
 	useEffect( () => {
 		// ADD TO ERROR PROPERTY ON IPokemon OBJ
 		PokemonService.getAll()
 		.then( ( response : AxiosResponse<object> ) => response.data )
-		.then( ( data : any ) => setPokemon( data ) )
+		.then( ( data : any ) => {
+			setPokemonCount( data.count );
+			setPokemon( data.pokemon );
+		} )
 		.catch( error => console.log( error ) )
 
 	}, [] );
