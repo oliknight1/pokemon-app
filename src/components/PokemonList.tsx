@@ -19,6 +19,10 @@ const PokemonList = () : JSX.Element => {
 		.catch( error => console.log( error ) )
 
 	}, [] );
+
+	const paginationHandler = () => {
+		console.log( 'chamge' )
+	}
 	return (
 		<>
 			<h1 className="mt-1 mb-2">Pokemon List</h1>
@@ -33,7 +37,7 @@ const PokemonList = () : JSX.Element => {
 					} )
 				}
 			</Row>
-			<Pagination className="pagination" defaultCurrent={ 1 } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 }/>
+			<Pagination className="pagination" defaultCurrent={ 1 } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 } onChange={ paginationHandler }/>
 		</>
 	) 
 
