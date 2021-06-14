@@ -7,6 +7,7 @@ import Pokemon from "./Pokemon";
 const PokemonList = () : JSX.Element => {
 	const [ pokemon, setPokemon ] = useState<IPokemon[]>([]);
 	const [ pokemonCount, setPokemonCount ] = useState<number>();
+	const [ page, setPage ] = useState<number>( 1 );
 	
 	useEffect( () => {
 		// ADD TO ERROR PROPERTY ON IPokemon OBJ
@@ -20,8 +21,16 @@ const PokemonList = () : JSX.Element => {
 
 	}, [] );
 
-	const paginationHandler = () => {
-		console.log( 'chamge' )
+	// Make sure to add a loading animation on page change
+	const paginationHandler = ( nextPage : number ) => {
+		setPage( nextPage );
+		PokemonService.handlePagination( nextPage )
+		.then( ( response : AxiosResponse<object> ) => response.data )
+		.then( ( data : any ) => {
+			setPokemon( data.pokemon );
+		} )
+		.catch( error => console.log( error ) )
+		
 	}
 	return (
 		<>
@@ -37,7 +46,7 @@ const PokemonList = () : JSX.Element => {
 					} )
 				}
 			</Row>
-			<Pagination className="pagination" defaultCurrent={ 1 } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 } onChange={ paginationHandler }/>
+			<Pagination className="pagination" current={ page } total={ pokemonCount } showSizeChanger={ false } pageSize={ 20 } onChange={ paginationHandler }/>
 		</>
 	) 
 
