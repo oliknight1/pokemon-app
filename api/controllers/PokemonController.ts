@@ -22,7 +22,7 @@ class PokemonController extends BaseController {
 		}
 		let allData = await Promise.all( allPromises );
 		const pokemonList : Pokemon[] = this.buildPokemon( allData )
-		
+
 		const returnValue : IPokemonResponse = {
 			count : response.count,
 			pokemon : pokemonList
@@ -58,6 +58,23 @@ class PokemonController extends BaseController {
 		return pokemonList;
 	}
 
+	public search = async ( req : Request, res : Response )  => {
+		const searchTerm = req.query.q;
+		if ( typeof searchTerm === undefined || searchTerm === '' ) {
+			console.log( 'ja' )
+			res.status( 400 ).send( { error: 'Invalid query string' } );
+			return;
+		}
+		const url = `${ API_URL }/pokemon?offset=0&limit=1118`
+		const response = await this.getData( url );
+		const results = response.results;
+		const foundPokemon : Pokemon[] = results.filter( ( pokemon : Pokemon ) => pokemon.name.includes( searchTerm as string ) );
+		if ( foundPokemon !== undefined ) {
+			res.send( foundPokemon )
+		} else {
+			res.send( null )
+		}
+	}
 
 }
 export default new PokemonController();

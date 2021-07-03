@@ -5,5 +5,7 @@ export const pokemonRouter = require( 'express' ).Router();
 
 pokemonRouter.get( '/', PokemonController.getAll );
 
+pokemonRouter.get( '/search', PokemonController.search )
+
 
 
